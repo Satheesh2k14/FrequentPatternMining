@@ -9,7 +9,14 @@ import pandas as pd
 
 database_animals = pd.read_csv('database.csv', header =0)
 
+print(database_animals)
 #Count the number of unique instances first
-df_itemlist = database_animals['ITEM'].unique()
+itemlist = pd.Series(database_animals['ITEM'].unique())
+print("The number of unique elements is " + str(len(itemlist)))
 
-print("The number of unique elements is " + str(len(df_itemlist)))
+frequency_1_item_list = [0] * len(itemlist)
+
+for i in database_animals['ITEM']:
+    frequency_1_item_list[itemlist[itemlist == i].index[0]] += 1
+
+print(frequency_1_item_list)
