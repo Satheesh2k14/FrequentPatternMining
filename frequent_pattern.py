@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 database_animals = pd.read_csv('database.csv', header =0)
+
 #create a dictionary for counting frequency
 transaction_dictionary = dict()
 for i in database_animals.itertuples():
@@ -17,7 +18,6 @@ for i in database_animals.itertuples():
         transaction_dictionary[i[1]] = [i[2]]
 
 print(transaction_dictionary)
-print(type(transaction_dictionary))
 
 #Count the number of unique instances first
 itemlist = pd.Series(database_animals['ITEM'].unique())
@@ -31,7 +31,7 @@ frequency_1_item_list = pd.Series([0] * len(itemlist))
 for i in database_animals['ITEM']:
     frequency_1_item_list[itemlist[itemlist == i].index[0]] += 1
 
-#Define minimum support
+#Define minimum support and filter elements less than min support from itemlist_1
 minimum_support = 2
 
 min_support_pass_list = itemlist[frequency_1_item_list >= 2]
@@ -47,7 +47,21 @@ for i in min_support_pass_list:
             itemlist_2.append([i,j])
             
 print(itemlist_2)
+itemlist_2 = pd.Series(itemlist_2)
 
 #to find frequency of the 2 itemlist
 frequency_2_item_list = pd.Series([0] * len(itemlist_2))
 
+for index, i in enumerate(itemlist_2):
+    for key, value in transaction_dictionary.items():
+       if i[0] in value and i[1] in value:
+           frequency_2_item_list[index] += 1
+
+
+print(frequency_2_item_list)
+
+#filter itemlist_2 with minimum support
+itemlist_2 = itemlist_2[frequency_2_item_list >= 2]
+print(itemlist_2)
+print(type(itemlist_2))
+       
