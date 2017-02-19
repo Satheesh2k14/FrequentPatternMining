@@ -9,14 +9,22 @@ import pandas as pd
 
 database_animals = pd.read_csv('database.csv', header =0)
 
-print(database_animals)
 #Count the number of unique instances first
 itemlist = pd.Series(database_animals['ITEM'].unique())
 print("The number of unique elements is " + str(len(itemlist)))
 
-frequency_1_item_list = [0] * len(itemlist)
+print(itemlist)
+
+#Calculate the frequency of 1 item list
+frequency_1_item_list = pd.Series([0] * len(itemlist))
 
 for i in database_animals['ITEM']:
     frequency_1_item_list[itemlist[itemlist == i].index[0]] += 1
 
-print(frequency_1_item_list)
+#Define minimum support
+minimum_support = 2
+
+min_support_pass_list = itemlist[frequency_1_item_list >= 2]
+
+print("Number of elements having support >= 2")
+print(min_support_pass_list)
