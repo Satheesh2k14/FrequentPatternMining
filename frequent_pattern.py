@@ -28,3 +28,13 @@ min_support_pass_list = itemlist[frequency_1_item_list >= 2]
 
 print("Number of elements having support >= 2")
 print(min_support_pass_list)
+
+#convert 1 item set to two item set
+itemlist_2 = []
+for i in itemlist:
+    for j in itemlist:
+        if i != j:
+            itemlist_2.append([i,j])
+            
+print(itemlist_2)
+
