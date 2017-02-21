@@ -72,9 +72,9 @@ itemlist_3 = []
 for i in itemlist_2:
    for j in  itemlist_2:
        if i[1]!=j[0] and i[1]!=j[1]:
-           itemlist_3.append([i[1],j[0],j[1]])
+           itemlist_3.append(sorted([i[1],j[0],j[1]]))
        if i[0]!=j[0] and i[0]!=j[1]:
-           itemlist_3.append([i[0],j[0],j[1]])
+           itemlist_3.append(sorted([i[0],j[0],j[1]]))
 itemlist_3.sort()  
 print (itemlist_3)
 print ("3itemlist:")
@@ -84,7 +84,7 @@ for i in itemlist_3:
         newlist_3.append(i)
 
 print(newlist_3)           
-
+newlist_3 = pd.Series(newlist_3)
 #to find frequency of 3 itemlist
 frequency_3_item_list = pd.Series([0] * len(newlist_3))
 
@@ -97,4 +97,39 @@ print(frequency_3_item_list)
 
 #filter 3itemlist with min support
 newlist_3 = newlist_3[frequency_3_item_list >=2 ]
-print(newlist_3)      
+print(newlist_3)  
+
+#convert 3itemlist to 4itemlist
+itemlist_4 = []
+for i in itemlist_3:
+   for j in  itemlist_3:
+       if i[1]!=j[0] and i[1]!=j[1] and i[1]!=j[2]:
+           itemlist_4.append(sorted([i[1],j[0],j[1],j[2]]))
+       if i[0]!=j[0] and i[0]!=j[1] and i[0]!=j[2]:
+           itemlist_4.append(sorted([i[0],j[0],j[1],j[2]]))
+       if i[2]!=j[0] and i[2]!=j[1] and i[2]!=j[2]:
+           itemlist_4.append(sorted([i[2],j[0],j[1],j[2]]))
+itemlist_4.sort()  
+print (itemlist_4)
+print ("4itemlist:")
+newlist_4 = []  
+for i in itemlist_4:
+    if i not in newlist_4:
+        newlist_4.append(i)
+
+print(newlist_4)   
+        
+newlist_4 = pd.Series(newlist_4)
+#to find frequency of 3 itemlist
+frequency_4_item_list = pd.Series([0] * len(newlist_4))
+
+for index,i in enumerate(newlist_4):
+    for key,value in transaction_dictionary.items():
+        if i[0] in value and i[1] in value and i[2] in value and i[3] in value:
+            frequency_4_item_list[index] +=1
+                                 
+print(frequency_4_item_list)   
+
+#filter 3itemlist with min support
+newlist_4 = newlist_4[frequency_4_item_list >=2 ]
+print(newlist_4)      
